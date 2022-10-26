@@ -1,0 +1,6 @@
+Manifest-Version: 1.0
+AutoUpdate-Show-In-Client: true
+OpenIDE-Module-Name: Better Brackets
+OpenIDE-Module-Display-Category: ADITO / Editors
+OpenIDE-Module-Short-Description: todo
+OpenIDE-Module-Long-Description: todo
