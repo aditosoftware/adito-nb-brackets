@@ -38,6 +38,10 @@ class InsertClosingTagListener extends AbstractTagListener
 
         if (count % 2 == 0)
           return false;
+
+        // Ignore, if there is already such a sign on the left
+        if (line.endsWith(String.valueOf(pChar)))
+          return false;
       }
 
       document.insertString(caretPosition, toInsert, null);

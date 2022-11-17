@@ -38,6 +38,39 @@ class InsertClosingTagListenerTest extends AbstractTagListenerTest
   }
 
   /**
+   * Tests, if the closing tag is ignored if there was already such a sign on the left
+   *
+   * @param pComponent  Editor Pane
+   * @param pOpeningTag Opening tag
+   * @param pClosingTag Closing tag
+   */
+  @ParameterizedTest
+  @ArgumentsSource(ArgProv.class)
+  @ArgProv.Listener(InsertClosingTagListener.class)
+  void shouldIgnoreClosingTag(@NotNull JEditorPane pComponent, char pOpeningTag, char pClosingTag)
+  {
+    // Only test on identical signs
+    if (pOpeningTag != pClosingTag)
+      return;
+
+    pComponent.setCaretPosition(7);
+    typeChar(pComponent, pOpeningTag);
+    pComponent.setCaretPosition(9);
+    typeChar(pComponent, pOpeningTag);
+
+    assertEquals("This is" + pOpeningTag + pClosingTag + pClosingTag + " my text.\r\nThis is line number two", pComponent.getText());
+    assertEquals(10, pComponent.getCaretPosition());
+
+    typeChar(pComponent, pOpeningTag);
+    assertEquals("This is" + pOpeningTag + pClosingTag + pOpeningTag + pClosingTag + " my text.\r\nThis is line number two", pComponent.getText());
+    assertEquals(11, pComponent.getCaretPosition());
+
+    typeChar(pComponent, pOpeningTag);
+    assertEquals("This is" + pOpeningTag + pClosingTag + pOpeningTag + pClosingTag + pOpeningTag + " my text.\r\nThis is line number two", pComponent.getText());
+    assertEquals(12, pComponent.getCaretPosition());
+  }
+
+  /**
    * Tests, if normal characters gets inserted normally
    *
    * @param pComponent Editor Pane
