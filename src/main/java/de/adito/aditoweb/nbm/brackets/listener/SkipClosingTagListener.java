@@ -11,7 +11,7 @@ import java.util.List;
  *
  * @author w.glanzer, 26.10.2022
  */
-class DeleteClosingTagListener extends AbstractTagListener
+class SkipClosingTagListener extends AbstractTagListener
 {
 
   private static final List<Character> _ADDITIONAL_SKIPPABLE_CHARS = List.of(';');

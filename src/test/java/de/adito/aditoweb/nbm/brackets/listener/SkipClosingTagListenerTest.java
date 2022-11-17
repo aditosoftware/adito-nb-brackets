@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * @author w.glanzer, 17.11.2022
  * @see InsertClosingTagListener
  */
-class DeleteClosingTagListenerTest extends AbstractTagListenerTest
+class SkipClosingTagListenerTest extends AbstractTagListenerTest
 {
 
   /**
@@ -26,7 +26,7 @@ class DeleteClosingTagListenerTest extends AbstractTagListenerTest
    */
   @ParameterizedTest
   @ArgumentsSource(ArgProv.class)
-  @ArgProv.Listener(DeleteClosingTagListener.class)
+  @ArgProv.Listener(SkipClosingTagListener.class)
   void shouldSkipTag(@NotNull JEditorPane pComponent, char pOpeningTag, char pClosingTag)
   {
     pComponent.setCaretPosition(7);

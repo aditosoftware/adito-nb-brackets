@@ -20,7 +20,7 @@ public class BracketsKeyListener extends KeyAdapter
 
   public BracketsKeyListener()
   {
-    this(new SurroundWithTagsListener(), new InsertClosingTagListener(), new DeleteClosingTagListener());
+    this(new SurroundWithTagsListener(), new InsertClosingTagListener(), new SkipClosingTagListener());
   }
 
   protected BracketsKeyListener(ITagListener... pListeners)
