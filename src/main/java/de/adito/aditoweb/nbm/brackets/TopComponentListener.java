@@ -1,5 +1,6 @@
 package de.adito.aditoweb.nbm.brackets;
 
+import de.adito.aditoweb.nbm.brackets.listener.BracketsKeyListener;
 import org.openide.modules.OnStart;
 import org.openide.text.CloneableEditorSupport;
 import org.openide.windows.TopComponent;
@@ -11,13 +12,13 @@ import java.beans.*;
  * Listener on all TopComponents to register the BracketsEditorListener
  *
  * @author w.glanzer, 26.10.2022
- * @see DeleteClosingTagListener
+ * @see de.adito.aditoweb.nbm.brackets.listener.BracketsKeyListener
  */
 @OnStart
 public class TopComponentListener implements Runnable, PropertyChangeListener
 {
 
-  private final DeleteClosingTagListener editorListener = new DeleteClosingTagListener();
+  private final BracketsKeyListener editorListener = new BracketsKeyListener();
 
   @Override
   public void run()
