@@ -53,10 +53,4 @@ class InsertClosingTagListener extends AbstractTagListener
     return false;
   }
 
-  @Override
-  protected boolean isEnabled()
-  {
-    return !isLegacyKeyListenerAvailable() && super.isEnabled();
-  }
-
 }

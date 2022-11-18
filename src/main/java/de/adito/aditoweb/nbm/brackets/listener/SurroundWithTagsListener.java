@@ -39,12 +39,6 @@ class SurroundWithTagsListener extends InsertClosingTagListener
     return false;
   }
 
-  @Override
-  protected boolean isEnabled()
-  {
-    return !isLegacyKeyListenerAvailable() && super.isEnabled();
-  }
-
   /**
    * Surrounds the text at the given position with the given char
    *
