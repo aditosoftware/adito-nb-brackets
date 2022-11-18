@@ -24,7 +24,7 @@ class SkipClosingTagListener extends AbstractTagListener
     {
       int caretPosition = pTextComponent.getCaretPosition();
       String nextChar = pTextComponent.getText(caretPosition, 1);
-      if (nextChar.toCharArray()[0] == pChar)
+      if (nextChar.charAt(0) == pChar)
       {
         pTextComponent.getDocument().remove(caretPosition, 1);
         return true;

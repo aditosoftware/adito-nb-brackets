@@ -46,7 +46,7 @@ public class BracketsKeyListener extends KeyAdapter
         int caretPosition = comp.getCaretPosition();
         if (caretPosition > 0)
         {
-          char deletedChar = comp.getText(caretPosition - 1, 1).toCharArray()[0];
+          char deletedChar = comp.getText(caretPosition - 1, 1).charAt(0);
           _fire(pListener -> pListener.handleCharDeleted(comp, deletedChar));
         }
       }

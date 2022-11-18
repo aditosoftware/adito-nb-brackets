@@ -22,7 +22,7 @@ class DeleteClosingTagListener extends AbstractTagListener
       int caretPosition = pTextComponent.getCaretPosition();
       if (caretPosition < pTextComponent.getText().length())
       {
-        char nextChar = pTextComponent.getText(caretPosition, 1).toCharArray()[0];
+        char nextChar = pTextComponent.getText(caretPosition, 1).charAt(0);
         if (nextChar == TAG_MAPPING.get(pChar))
         {
           pTextComponent.getDocument().remove(caretPosition, 1);
