@@ -20,7 +20,7 @@ public class BracketsKeyListener extends KeyAdapter
 
   public BracketsKeyListener()
   {
-    this(new SurroundWithTagsListener(), new InsertClosingTagListener(), new SkipClosingTagListener());
+    this(new SurroundWithTagsListener(), new InsertClosingTagListener(), new SkipClosingTagListener(), new DeleteClosingTagListener());
   }
 
   protected BracketsKeyListener(ITagListener... pListeners)
@@ -35,16 +35,57 @@ public class BracketsKeyListener extends KeyAdapter
     if (!(source instanceof JTextComponent))
       return;
 
+    JTextComponent comp = (JTextComponent) source;
+
     try
     {
-      for (ITagListener listener : listeners)
-        if (listener.handleCharInserted((JTextComponent) source, e.getKeyChar()))
-          break;
+      // Deletion Events: Backspace
+      // Ignore Deletion by "Delete"-Key, because IntelliJ/VSCode ignores it too
+      if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE)
+      {
+        int caretPosition = comp.getCaretPosition();
+        if (caretPosition > 0)
+        {
+          char deletedChar = comp.getText(caretPosition - 1, 1).toCharArray()[0];
+          _fire(pListener -> pListener.handleCharDeleted(comp, deletedChar));
+        }
+      }
+
+      // any other char
+      else
+        _fire(pListener -> pListener.handleCharInserted(comp, e.getKeyChar()));
     }
     catch (Exception ex)
     {
       Logger.getLogger(BracketsKeyListener.class.getName()).log(Level.WARNING, "Failed to handle brackets event", ex);
     }
+  }
+
+  /**
+   * Executors the given function on all listeners.
+   * If the function returns true, then the propagation will be stopped, because the event got handled
+   *
+   * @param pOnListenerFn function to execute
+   */
+  private void _fire(@NotNull IOnListenerFn pOnListenerFn) throws Exception
+  {
+    for (ITagListener listener : listeners)
+      if (pOnListenerFn.apply(listener))
+        break;
+  }
+
+  /**
+   * Function to trigger a listener
+   */
+  private interface IOnListenerFn
+  {
+    /**
+     * Gets called if the listener should fire an event
+     *
+     * @param pListener Listener to fire the event
+     * @return true, if the listener handled the event and the propagation should be stopped
+     */
+    boolean apply(@NotNull ITagListener pListener) throws Exception;
   }
 
   public interface ITagListener
@@ -57,6 +98,15 @@ public class BracketsKeyListener extends KeyAdapter
      * @return true, if the event was handled
      */
     boolean handleCharInserted(@NotNull JTextComponent pTextComponent, char pChar) throws Exception;
+
+    /**
+     * Gets called if a char was deleted (by backspace) from the text component
+     *
+     * @param pTextComponent text component that received the event
+     * @param pChar          char that was deleted
+     * @return true, if the event was handled
+     */
+    boolean handleCharDeleted(@NotNull JTextComponent pTextComponent, char pChar) throws Exception;
   }
 
 }

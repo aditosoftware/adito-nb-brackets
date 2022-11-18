@@ -73,10 +73,23 @@ abstract class AbstractTagListenerTest
    */
   protected void typeChar(@NotNull JTextComponent pComponent, char pChar)
   {
+    typeChar(pComponent, pChar, KeyEvent.VK_UNDEFINED);
+  }
+
+  /**
+   * Types the given char in the component - like the user will do.
+   * Blocks until the event got propagated to the component
+   *
+   * @param pComponent Component to type into
+   * @param pChar      char to type
+   * @param pKeyCode   Key Code for the key event
+   */
+  protected void typeChar(@NotNull JTextComponent pComponent, char pChar, int pKeyCode)
+  {
     SwingUtilities.invokeLater(() -> {
       try
       {
-        KeyEvent event = new KeyEvent(pComponent, KeyEvent.KEY_PRESSED, System.currentTimeMillis(), 0, KeyEvent.VK_UNDEFINED, pChar);
+        KeyEvent event = new KeyEvent(pComponent, KeyEvent.KEY_PRESSED, System.currentTimeMillis(), 0, pKeyCode, pChar);
         ((_JEditorPane) pComponent).processKeyEvent(event);
         // invoke this Action "manually". This simulates Netbeans
         new DefaultEditorKit.DefaultKeyTypedAction().actionPerformed(new ActionEvent(pComponent,

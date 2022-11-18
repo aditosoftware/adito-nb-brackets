@@ -37,6 +37,14 @@ abstract class AbstractTagListener implements BracketsKeyListener.ITagListener
     return false;
   }
 
+  @Override
+  public final boolean handleCharDeleted(@NotNull JTextComponent pTextComponent, char pChar) throws Exception
+  {
+    if (isEnabled() && isApplicableForChar(pChar))
+      return handleCharDeleted0(pTextComponent, pChar);
+    return false;
+  }
+
   /**
    * Gets called if a char was inserted into the text
    * component, that matches our "applicable chars"
@@ -45,7 +53,23 @@ abstract class AbstractTagListener implements BracketsKeyListener.ITagListener
    * @param pChar          char that was inserted
    * @return true, if the event was handled
    */
-  protected abstract boolean handleCharInserted0(@NotNull JTextComponent pTextComponent, char pChar) throws Exception;
+  protected boolean handleCharInserted0(@NotNull JTextComponent pTextComponent, char pChar) throws Exception
+  {
+    return false;
+  }
+
+  /**
+   * Gets called if a char was deleted (by backspace) from the text
+   * component, that matches our "applicable chars"
+   *
+   * @param pTextComponent TextComponent that received the event
+   * @param pChar          char that was deleted
+   * @return true, if the event was handled
+   */
+  protected boolean handleCharDeleted0(@NotNull JTextComponent pTextComponent, char pChar) throws Exception
+  {
+    return false;
+  }
 
   /**
    * Determines if this tag listener is applicable for the char that was entered
